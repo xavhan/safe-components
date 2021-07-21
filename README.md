@@ -38,7 +38,8 @@ To display a registered component you can now do
 ### Play with it
 
 ```bash
-git clone repo
+git clone https://github.com/xavhan/safe-components
+cd safe-components
 npm install
 npm run dev
 ```
