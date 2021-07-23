@@ -15,10 +15,11 @@ export const get = (nfsengineid, properties) => {
     return { ok: false };
   }
   const schema = registry[nfsengineid].schema;
-  const valid = ajv.validate(schema, properties);
+  const validator = ajv.compile(schema);
+  const valid = validator(properties);
 
   if (!valid) {
-    return { ok: true, valid: false, errors: ajv.errors };
+    return { ok: true, valid: false, errors: validator.errors };
   }
   return {
     ok: true,
