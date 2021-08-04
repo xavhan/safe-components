@@ -1,8 +1,8 @@
 export const schema = {
-  type: "object",
+  type: 'object',
   properties: {
-    foo: {type: "integer"},
-    bar: {type: "string"}
+    foo: { type: 'integer' },
+    bar: { type: 'string' },
   },
-  required: ["bar"],
-}
+  required: ['bar'],
+};

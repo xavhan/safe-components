@@ -1,43 +1,49 @@
 <script>
+  import {onMount} from 'svelte';
+  import {writable} from "svelte/store";
+
   import './registration'
   import Safe from './Safe.svelte';
-  import Spacer from './Spacer.svelte';
+  import {getEngineResponse} from './domain/engine/api';
+
   let i = 0
   let n = 0
+
+  const props = [1, 2, null];
+  const engineResponse = writable({});
+
   const changeVal = () => {
-    const props = [1,2, null]
     n = props[i++ % props.length]
   }
 
-  const responseFromEngine = {
-    type: 'redlayout',
-    data: { title: 'safe !' },
-    items: [
-      { type: 'hello', data: { foo: 123 } }, // bad
-      { type: 'hello', data: { foo: 123, bar: '456' } }, // ok
-      { type: 'redlayout', data: { title: 'nested layout' }, items: [
-        { type: 'hello', data: { } }, // bad
-        { type: 'redlayout', data: { title: 'more nesting' }, items: [
-          { type: 'hello', data: { foo: 123, bar: 'yoyolo' } },
-          { type: 'hello', data: { bar: 1 } }, // bad
-        ] },
-        { type: 'redlayout', data: { bad: 'bad' }, items: [ // bad
-          { type: 'hello', data: { foo: 123, bar: 'yoyolo' } },
-          { type: 'hello', data: { bar: 1 } }, // bad
-        ] },
-        { type: 'hello', data: { foo: 123, bar: 'yoyolo' } },
-      ] }, // ok
-      { type: 'userlisting', data: { users: 'bad' } }, // bad (would break the app)
-      { type: 'userlisting', data: { users: [
-        { id: '1', name: 'Xavier' },
-        { id: '2', name: 'Bertrand', email: 'example@ex.org' }
-      ] } }, // ok
-    ]
-  }
+  onMount(async () => {
+    engineResponse.set(await getEngineResponse());
+  })
+
 </script>
 
-<Safe engineId={responseFromEngine.type} data={responseFromEngine.data} items={responseFromEngine.items} />
+<style>
+    .app, .fixed-container {
+        display: flex;
+        flex-direction: column;
 
-roll between values to insert on that would break the app (1,2,null) <button on:click={changeVal}>next value</button>
-<br>
-<Safe engineId="fixed" data={ { nested: { num: n } } } />
+        gap: 1em;
+
+        padding: 2rem;
+    }
+
+    .fixed-container {
+        border-top: 2px #333333 solid;
+    }
+</style>
+
+<div class="app">
+    {#if $engineResponse.type}
+        <Safe engineId={$engineResponse.type} data={$engineResponse.data} items={$engineResponse.items}/>
+    {/if}
+    <div class="fixed-container">
+        <Safe engineId="fixed" data={ { nested: { num: n } } }/>
+        <span>roll between values to insert on that would break the app (1,2,null)</span>
+        <button on:click={changeVal}>next value</button>
+    </div>
+</div>

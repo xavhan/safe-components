@@ -1,4 +1,4 @@
-import Ajv from "ajv";
+import Ajv from 'ajv';
 const ajv = new Ajv();
 
 const registry = {};
@@ -14,7 +14,7 @@ export const get = (nfsengineid, properties) => {
   if (!registry[nfsengineid]) {
     return { ok: false };
   }
-  const schema = registry[nfsengineid].schema;
+  const { schema, component } = registry[nfsengineid];
   const validator = ajv.compile(schema);
   const valid = validator(properties);
 
@@ -24,7 +24,7 @@ export const get = (nfsengineid, properties) => {
   return {
     ok: true,
     valid: true,
-    component: registry[nfsengineid].component,
+    component,
     properties,
   };
 };
