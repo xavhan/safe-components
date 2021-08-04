@@ -1,12 +1,12 @@
 export const schema = {
-  type: "object",
+  type: 'object',
   properties: {
     nested: {
-      type: "object",
+      type: 'object',
       properties: {
-        num: {type: "integer"},
+        num: { type: 'integer' },
       },
-      required: ["num"],
-    }
+      required: ['num'],
+    },
   },
-}
+};
