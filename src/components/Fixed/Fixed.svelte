@@ -1,5 +1,5 @@
 <script>
-  export let nested
+  export let nested;
 </script>
 
 {nested.num.toFixed()}

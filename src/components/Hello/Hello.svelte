@@ -1,13 +1,13 @@
 <script>
-	export let foo
-	export let bar
+  export let foo;
+  export let bar;
 </script>
 
 <div class="hello">
   Hello Component
-  <br>
+  <br />
   foo: {foo} is integer
-  <br>
+  <br />
   bar: {bar} is a string
 </div>
 

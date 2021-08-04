@@ -7,7 +7,8 @@
 <ul>
   {#each users as user}
     <li>
-      [{user.id}] {user.name} {#if user.email}({user.email}){/if}
+      [{user.id}] {user.name}
+      {#if user.email}({user.email}){/if}
     </li>
   {/each}
 </ul>
